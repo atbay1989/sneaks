@@ -10,25 +10,23 @@
 
 <script>
 
-import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  data() {
-    return {
-      sneaks: [],
-    };
+  computed: {
+    ...mapGetters({
+      sneaks: 'timeline/sneaks'
+    })
   },
-
+  
   methods: {
-    async getSneaks() {
-      let response = await axios.get("/api/timeline");
-
-      this.sneaks = response.data.data;
-    },
+    ...mapActions({
+      getSneaks: 'timeline/getSneaks'
+    })
   },
 
-  mounted() {
-    this.getSneaks();
-  },
-};
+  mounted () {
+    this.getSneaks()
+  }
+}
 </script>
