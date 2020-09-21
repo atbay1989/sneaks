@@ -38,6 +38,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function avatar()
+    {
+        return 'https://en.gravatar.com/avatar/' . md5($this->email) . '?d=mp';
+    }
+
     public function following()
     {
         return $this->belongsToMany(
