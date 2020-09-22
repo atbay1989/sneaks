@@ -21,10 +21,11 @@ export default {
     },
 
     actions: {
-        async getSneaks({ commit }) {
-            let response = await axios.get("/api/timeline");
-
+        async getSneaks({ commit }, url) {
+            let response = await axios.get(url);
             commit('PUSH_SNEAKS', response.data.data)
+
+            return response
         }
     }
 }

@@ -12,7 +12,7 @@ class TimelineController extends Controller
     {
         $sneaks = $request->user()
             ->sneaksFromFollowing()
-            ->paginate(4);
+            ->paginate(16);
 
         return new SneakCollection($sneaks);
     }

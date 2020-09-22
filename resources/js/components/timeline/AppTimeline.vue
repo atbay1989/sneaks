@@ -1,32 +1,65 @@
 <template>
-    <div>
-      <app-sneak
-        v-for="sneak in sneaks"
-        :key="sneak.id"
-        :sneak="sneak"
-        />
-    </div>
+  <div>
+    <app-sneak v-for="sneak in sneaks" :key="sneak.id" :sneak="sneak" />
+    <div
+      v-if="sneaks.length"
+      v-observe-visibility=" {
+          callback: handleScrolledToBottom
+      }"
+    ></div>
+  </div>
 </template>
 
 <script>
-
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions } from "vuex";
 
 export default {
-  computed: {
-    ...mapGetters({
-      sneaks: 'timeline/sneaks'
-    })
-  },
-  
-  methods: {
-    ...mapActions({
-      getSneaks: 'timeline/getSneaks'
-    })
+  data() {
+    return {
+      page: 1,
+      lastPage: 1,
+    };
   },
 
-  mounted () {
-    this.getSneaks()
+  computed: {
+    ...mapGetters({
+      sneaks: "timeline/sneaks"
+    }),
+
+    urlWithPage() {
+      return `/api/timeline?page=${this.page}`
+    },
+  },
+
+  methods: {
+    ...mapActions({
+      getSneaks: "timeline/getSneaks"
+    }),
+
+    loadSneaks() {
+      this.getSneaks(this.urlWithPage).then((response) => {
+        this.lastPage = response.data.meta.last_page
+      })
+    },
+
+    handleScrolledToBottom(isVisible) {
+      console.log(this.lastPage === this.page)
+
+      if (!isVisible) {
+        return
+      }
+
+      if (this.lastPage === this.page) {
+        return
+      }
+
+      this.page++;
+      this.loadSneaks();
+    }
+  },
+
+  mounted() {
+    this.loadSneaks();
   }
-}
+};
 </script>
