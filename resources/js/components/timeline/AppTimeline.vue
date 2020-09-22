@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div class="border-b-8 border-orange-100 p-4 w-full">
+      <app-sneak-compose />
+    </div>
+
     <app-sneak v-for="sneak in sneaks" :key="sneak.id" :sneak="sneak" />
     <div
       v-if="sneaks.length"
@@ -11,14 +15,15 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex"
 
 export default {
+
   data() {
     return {
       page: 1,
-      lastPage: 1,
-    };
+      lastPage: 1
+    }
   },
 
   computed: {
@@ -43,14 +48,13 @@ export default {
     },
 
     handleScrolledToBottom(isVisible) {
-      console.log(this.lastPage === this.page)
 
       if (!isVisible) {
-        return
+        return;
       }
 
       if (this.lastPage === this.page) {
-        return
+        return;
       }
 
       this.page++;
@@ -61,5 +65,5 @@ export default {
   mounted() {
     this.loadSneaks();
   }
-};
+}
 </script>
