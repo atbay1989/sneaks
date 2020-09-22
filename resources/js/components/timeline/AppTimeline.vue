@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
+import { mapGetters, mapActions, mapMutations } from "vuex"
 
 export default {
 
@@ -41,6 +41,10 @@ export default {
       getSneaks: "timeline/getSneaks"
     }),
 
+    ...mapMutations({
+      PUSH_SNEAKS: "timeline/PUSH_SNEAKS"
+    }),
+
     loadSneaks() {
       this.getSneaks(this.urlWithPage).then((response) => {
         this.lastPage = response.data.meta.last_page
@@ -64,6 +68,11 @@ export default {
 
   mounted() {
     this.loadSneaks();
+
+    Echo.private(`timeline.${this.$user.id}`)
+      .listen('.SneakWasCreated', (e) => {
+        this.PUSH_SNEAKS([e])
+      })
   }
 }
 </script>

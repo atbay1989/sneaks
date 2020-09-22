@@ -10,6 +10,7 @@ export default {
     getters: {
         sneaks (state) {
             return state.sneaks
+                .sort((a, b) => b.created_at - a.created_at)
         }
     },
 

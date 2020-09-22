@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api\Sneaks;
 
+use App\Events\Sneaks\SneakWasCreated;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\Sneaks\SneakStoreRequest;
 
 class SneakController extends Controller
@@ -15,7 +15,7 @@ class SneakController extends Controller
 
     public function store(SneakStoreRequest $request)
     {
-
-        $request->user()->sneaks()->create($request->only('body'));
+        $sneak = $request->user()->sneaks()->create($request->only('body'));
+        broadcast(new SneakWasCreated($sneak));
     }
 }
