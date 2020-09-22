@@ -16,7 +16,7 @@ class CreateSneaksTable extends Migration
         Schema::create('sneaks', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->index();
-            $table->text('body', 255);
+            $table->text('body');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();

@@ -48,6 +48,11 @@ class User extends Authenticatable
         return 'https://en.gravatar.com/avatar/' . md5($this->email) . '?d=mp';
     }
 
+    public function sneaks()
+    {
+        return $this->hasMany(Sneak::class);
+    }
+
     public function following()
     {
         return $this->belongsToMany(
