@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sneak extends Model
 {
-    use HasFactory;
+    //use HasFactory;
+
+    /**
+     * Undocumented variable
+     *
+     * @var [type]
+     */
+    protected $guarded = [];
 
     /**
      * Undocumented function

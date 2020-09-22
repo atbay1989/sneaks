@@ -1,5 +1,5 @@
 <template>
-  <form class="flex">
+  <form class="flex" @submit.prevent="submit">
     <div class="mr-3">
       <img :src="$user.avatar" class="w-12 rounded-full" />
     </div>
@@ -8,6 +8,7 @@
         class="bg-orange-500 w-full outline-none text-orange-100 text-lg resize-none mb-2 placeholder-orange-300"
         placeholder="What is there to say?"
         autofocus
+        v-model="form.body"
       ></textarea>
 
       <div class="flex justify-between">
@@ -23,3 +24,22 @@
     </div>
   </form>
 </template>
+
+<script>
+import axios from 'axios'
+export default {
+  data () {
+    return {
+      form: {
+        body: ''
+      }
+    }
+  },
+
+  methods: {
+    async submit () {
+      await axios.post('/api/sneaks', this.form)
+    }
+  }
+}
+</script>

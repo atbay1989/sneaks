@@ -8,10 +8,25 @@ use Illuminate\Http\Request;
 
 class TimelineController extends Controller
 {
+    /**
+     * Undocumented function
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum']);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return void
+     */
     public function index(Request $request)
     {
         $sneaks = $request->user()
             ->sneaksFromFollowing()
+            ->latest()
             ->paginate(8);
 
         return new SneakCollection($sneaks);
