@@ -8,14 +8,20 @@ export default {
     },
 
     getters: {
-        sneaks (state) {
+        sneaks(state) {
             return state.sneaks
+                .sort((a, b) => b.created_at - a.created_at)
         }
     },
 
     mutations: {
-        PUSH_SNEAKS (state, data) {
-            state.sneaks.push(...data)
+        PUSH_SNEAKS(state, data) {
+            state.sneaks.push(
+                ...data.filter((sneak) => {
+                    return !state.sneaks.map((t) => t.id).includes(sneak.id)
+                })
+
+            )
         }
 
     },

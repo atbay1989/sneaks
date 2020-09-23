@@ -25,4 +25,9 @@ class Sneak extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function originalSneak()
+    {
+        return $this->hasOne(Sneak::class, 'id', 'original_sneak_id');
+    }
 }
