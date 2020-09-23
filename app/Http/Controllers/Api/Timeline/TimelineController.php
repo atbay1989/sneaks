@@ -27,6 +27,9 @@ class TimelineController extends Controller
         $sneaks = $request->user()
             ->sneaksFromFollowing()
             ->latest()
+            ->with([
+                'user'
+            ])
             ->paginate(8);
 
         return new SneakCollection($sneaks);

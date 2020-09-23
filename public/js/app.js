@@ -58969,7 +58969,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     PUSH_SNEAKS: function PUSH_SNEAKS(state, data) {
       var _state$sneaks;
 
-      (_state$sneaks = state.sneaks).push.apply(_state$sneaks, _toConsumableArray(data));
+      (_state$sneaks = state.sneaks).push.apply(_state$sneaks, _toConsumableArray(data.filter(function (sneak) {
+        return !state.sneaks.map(function (t) {
+          return t.id;
+        }).includes(sneak.id);
+      })));
     }
   },
   actions: {
