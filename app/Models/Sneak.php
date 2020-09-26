@@ -30,4 +30,9 @@ class Sneak extends Model
     {
         return $this->hasOne(Sneak::class, 'id', 'original_sneak_id');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

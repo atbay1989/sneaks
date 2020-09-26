@@ -73,6 +73,11 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function sneaksFromFollowing()
     {
         return $this->hasManyThrough(
@@ -83,5 +88,15 @@ class User extends Authenticatable
             'id',
             'following_id',
         );
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
     }
 }

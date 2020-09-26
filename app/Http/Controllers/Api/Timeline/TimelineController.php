@@ -28,7 +28,8 @@ class TimelineController extends Controller
             ->sneaksFromFollowing()
             ->latest()
             ->with([
-                'user'
+                'user',
+                'likes'
             ])
             ->paginate(8);
 

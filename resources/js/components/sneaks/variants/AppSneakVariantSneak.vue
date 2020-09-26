@@ -5,7 +5,10 @@
     </div>
     <div class="flex-grow">
       <app-sneak-username :user="sneak.user" />
-      <p class="text-grey-200 whitespace-pre-wrap">{{ sneak.body }}</p>
+      <p class="text-grey-200 whitespace-pre-wrap">{{ sneak.body }}</p>      
+      <app-sneak-action-group 
+        :sneak="sneak"  
+      />
     </div>
   </div>
 </template>

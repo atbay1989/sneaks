@@ -30,7 +30,7 @@ export default {
         async getSneaks({ commit }, url) {
             let response = await axios.get(url);
             commit('PUSH_SNEAKS', response.data.data)
-
+            commit('likes/PUSH_LIKES', response.data.meta.likes, { root: true })
             return response
         }
     }

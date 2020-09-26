@@ -10,6 +10,9 @@
         class="border border-orange-100 rounded-lg mt-4"
         :sneak="sneak.original_sneak"
       />
+      <app-sneak-action-group 
+        :sneak="sneak"
+      />
     </div>
   </div>
 </template>
