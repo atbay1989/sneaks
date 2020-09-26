@@ -22,7 +22,44 @@ class SneakCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => $this->collection  
+            'data' => $this->collection
         ];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $request
+     * @return void
+     */
+    public function with($request)
+    {
+        return [
+            'meta' => [
+                'likes' => $this->likes($request)
+
+            ]
+        ];
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $request
+     * @return void
+     */
+    protected function likes($request)
+    {
+        if (!$user = $request->user()) {
+            return [];
+        }
+
+        return $user->likes()
+            ->whereIn(
+                'sneak_id',
+                $this->collection->pluck('id')
+            )
+            ->pluck('sneak_id')
+            ->toArray();
     }
 }

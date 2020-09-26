@@ -4,12 +4,9 @@
       <img :src="$user.avatar" class="w-12 rounded-full" />
     </div>
     <div class="flex-grow">
-      <textarea
-        class="bg-orange-500 w-full outline-none text-orange-100 text-lg resize-none mb-2 placeholder-orange-300"
-        placeholder="What is there to say?"
-        autofocus
+      <app-sneak-compose-textarea
         v-model="form.body"
-      ></textarea>
+      />
 
       <div class="flex justify-between">
         <div></div>
@@ -39,7 +36,8 @@ export default {
   methods: {
     async submit () {
       await axios.post('/api/sneaks', this.form)
+      this.form.body = ''
     }
-  }
+  },
 }
 </script>
