@@ -2177,6 +2177,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     liked: function liked() {
       return this.likes.includes(this.sneak.id);
     }
+  }),
+  methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
+    likeSneak: "likes/likeSneak",
+    unlikeSneak: "likes/unlikeSneak"
+  })), {}, {
+    likeOrUnlike: function likeOrUnlike() {
+      if (this.liked) {
+        this.unlikeSneak(this.sneak);
+        return;
+      }
+
+      this.likeSneak(this.sneak);
+    }
   })
 });
 
@@ -45015,7 +45028,16 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "a",
-    { staticClass: "flex items-center text-base", attrs: { href: "#" } },
+    {
+      staticClass: "flex items-center text-base",
+      attrs: { href: "#" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          return _vm.likeOrUnlike($event)
+        }
+      }
+    },
     [
       _c(
         "svg",
@@ -59180,6 +59202,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_observe_visibility__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-observe-visibility */ "./node_modules/vue-observe-visibility/dist/vue-observe-visibility.esm.js");
 /* harmony import */ var _store_timeline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/timeline */ "./resources/js/store/timeline.js");
 /* harmony import */ var _store_likes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/likes */ "./resources/js/store/likes.js");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -59209,6 +59232,7 @@ files.keys().map(function (key) {
 
 
 
+
 var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
   modules: {
     timeline: _store_timeline__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -59224,6 +59248,13 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_0__["default"].Store({
 var app = new Vue({
   el: '#app',
   store: store
+});
+window.Echo.channel('sneaks').listen('.SneakLikesWereUpdated', function (e) {
+  if (e.user_id === User.id) {
+    store.dispatch('likes/syncLike', e.id);
+  }
+
+  store.commit('timeline/SET_LIKES', e);
 });
 
 /***/ }),
@@ -60086,6 +60117,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -60097,6 +60140,8 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.it
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   namespaced: true,
@@ -60113,6 +60158,59 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _state$likes;
 
       (_state$likes = state.likes).push.apply(_state$likes, _toConsumableArray(data));
+    },
+    PUSH_LIKE: function PUSH_LIKE(state, id) {
+      state.likes.push(id);
+    },
+    POP_LIKE: function POP_LIKE(state, id) {
+      state.likes = Object(lodash__WEBPACK_IMPORTED_MODULE_2__["without"])(state.likes, id);
+    }
+  },
+  actions: {
+    likeSneak: function likeSneak(_, sneak) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("api/sneaks/".concat(sneak.id, "/likes"));
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    unlikeSneak: function unlikeSneak(_, sneak) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]("api/sneaks/".concat(sneak.id, "/likes"));
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    syncLike: function syncLike(_ref, id) {
+      var commit = _ref.commit,
+          state = _ref.state;
+
+      if (state.likes.includes(id)) {
+        commit('POP_LIKE', id);
+        return;
+      }
+
+      commit('PUSH_LIKE', id);
     }
   }
 });
@@ -60132,6 +60230,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_2__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -60149,6 +60249,7 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.it
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -60172,17 +60273,32 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
           return t.id;
         }).includes(sneak.id);
       })));
+    },
+    SET_LIKES: function SET_LIKES(state, _ref) {
+      var id = _ref.id,
+          count = _ref.count;
+      state.sneaks = state.sneaks.map(function (t) {
+        if (t.id === id) {
+          t.likes_count = count;
+        }
+
+        if (Object(lodash__WEBPACK_IMPORTED_MODULE_2__["get"])(t.original_sneak), 'id' === id) {
+          t.original_sneak.likes_count = count;
+        }
+
+        return t;
+      });
     }
   },
   actions: {
-    getSneaks: function getSneaks(_ref, url) {
+    getSneaks: function getSneaks(_ref2, url) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var commit, response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                commit = _ref.commit;
+                commit = _ref2.commit;
                 _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(url);
 

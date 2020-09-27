@@ -99,4 +99,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Like::class);
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function hasLiked(Sneak $sneak)
+    {
+        return $this->likes->contains('sneak.id', $sneak->id);
+    }
 }

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { get } from 'lodash'
 
 export default {
     namespaced: true,
@@ -22,6 +23,19 @@ export default {
                 })
 
             )
+        },
+
+        SET_LIKES (state, { id, count }) {
+            state.sneaks = state.sneaks.map((t) => {
+                if (t.id === id) {
+                    t.likes_count = count 
+                }
+
+                if (get(t.original_sneak), 'id' === id) {
+                    t.original_sneak.likes_count = count
+                }
+                return t
+            })
         }
 
     },

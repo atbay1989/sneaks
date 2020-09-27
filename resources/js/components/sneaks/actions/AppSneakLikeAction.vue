@@ -1,5 +1,5 @@
 <template>
-  <a href="#" class="flex items-center text-base">
+  <a href="#" class="flex items-center text-base" @click.prevent="likeOrUnlike">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   props: {
     sneak: {
@@ -42,6 +43,22 @@ export default {
 
     liked() {
       return this.likes.includes(this.sneak.id);
+    },
+  },
+
+  methods: {
+    ...mapActions({
+      likeSneak: "likes/likeSneak",
+      unlikeSneak: "likes/unlikeSneak",
+    }),
+
+    likeOrUnlike() {
+      if (this.liked) {
+        this.unlikeSneak(this.sneak);
+        return;
+      }
+
+      this.likeSneak(this.sneak);
     },
   },
 };
