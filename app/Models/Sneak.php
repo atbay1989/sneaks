@@ -26,18 +26,43 @@ class Sneak extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function originalSneak()
     {
         return $this->hasOne(Sneak::class, 'id', 'original_sneak_id');
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function likes()
     {
         return $this->hasMany(Like::class);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function resneaks()
     {
         return $this->hasMany(Sneak::class, 'original_sneak_id');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function resneakedSneak()
+    {
+        return $this->hasOne(Sneak::class, 'original_sneak_id', 'id');
     }
 }

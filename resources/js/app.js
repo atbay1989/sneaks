@@ -66,3 +66,18 @@ window.Echo.channel('sneaks')
         store.commit('timeline/SET_LIKES', e)
 
     })
+    .listen('.SneakResneaksWereUpdated', (e) => {
+
+        if (e.user_id === User.id) {
+            store.dispatch('resneaks/syncResneak', e.id)
+
+        }
+
+        store.commit('timeline/SET_RESNEAKS', e)
+
+    })
+    .listen('.SneakWasDeleted', (e) => {
+
+        store.commit('timeline/POP_SNEAK', e.id)
+
+    })

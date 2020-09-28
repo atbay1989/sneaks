@@ -25,14 +25,33 @@ export default {
             )
         },
 
-        SET_LIKES (state, { id, count }) {
+        POP_SNEAK(state, id) {
+            state.sneaks = state.sneaks.filter((t) => {
+                return t.id !== id
+            })
+        },
+
+        SET_LIKES(state, { id, count }) {
             state.sneaks = state.sneaks.map((t) => {
                 if (t.id === id) {
-                    t.likes_count = count 
+                    t.likes_count = count
                 }
 
                 if (get(t.original_sneak), 'id' === id) {
                     t.original_sneak.likes_count = count
+                }
+                return t
+            })
+        },
+
+        SET_RESNEAKS(state, { id, count }) {
+            state.sneaks = state.sneaks.map((t) => {
+                if (t.id === id) {
+                    t.resneaks_count = count
+                }
+
+                if (get(t.original_sneak), 'id' === id) {
+                    t.original_sneak.resneaks_count = count
                 }
                 return t
             })
