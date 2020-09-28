@@ -11,7 +11,13 @@
       <div class="flex justify-between">
         <div></div>
 
-        <div>
+        <div class="flex items-center justify-end">
+          <div>
+            <app-sneak-compose-limit
+              class="mr-2" 
+              :body="form.body"
+              />
+          </div>
           <button
             type="submit"
             class="bg-orange-700 rounded-full text-orange-100 text-center px-4 py-3 font-bold leading-none"

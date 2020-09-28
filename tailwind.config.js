@@ -1,3 +1,5 @@
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   // future: {
   //   // removeDeprecatedGapUtilities: true,
@@ -18,7 +20,22 @@ module.exports = {
     },
   },
 
-  variants: {},
+  variants: {
+    textColor: ['responsive', 'hover', 'focus', 'important'],
+    backgroundColor: ['responsive', 'hover', 'focus', 'important'],
+    borderWidth: ['responsive', 'important'],
+  },
   
-  plugins: [],
+  plugins: [
+    plugin(function({ addVariant }) {
+      addVariant('important', ({ container }) => {
+        container.walkRules(rule => {
+          rule.selector = `.\\!${rule.selector.slice(1)}`
+          rule.walkDecls(decl => {
+            decl.important = true
+          })
+        })
+      })
+    })
+  ],
 }
