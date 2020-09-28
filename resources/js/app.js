@@ -31,13 +31,16 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
 
 import timeline from './store/timeline'
 import likes from './store/likes'
-import Echo from 'laravel-echo';
+import resneaks from './store/resneaks'
+
+import Echo from 'laravel-echo'
 
 
 const store = new Vuex.Store({
     modules: {
         timeline,
-        likes
+        likes,
+        resneaks
     }
 })
 

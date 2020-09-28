@@ -45,6 +45,8 @@ export default {
             let response = await axios.get(url);
             commit('PUSH_SNEAKS', response.data.data)
             commit('likes/PUSH_LIKES', response.data.meta.likes, { root: true })
+            commit('resneaks/PUSH_RESNEAKS', response.data.meta.resneaks, { root: true })
+
             return response
         }
     }
