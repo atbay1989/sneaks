@@ -7,52 +7,50 @@
     <app-sneak v-for="sneak in sneaks" :key="sneak.id" :sneak="sneak" />
     <div
       v-if="sneaks.length"
-      v-observe-visibility=" {
-          callback: handleScrolledToBottom
+      v-observe-visibility="{
+        callback: handleScrolledToBottom,
       }"
     ></div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex"
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 export default {
-
   data() {
     return {
       page: 1,
-      lastPage: 1
-    }
+      lastPage: 1,
+    };
   },
 
   computed: {
     ...mapGetters({
-      sneaks: "timeline/sneaks"
+      sneaks: "timeline/sneaks",
     }),
 
     urlWithPage() {
-      return `/api/timeline?page=${this.page}`
+      return `/api/timeline?page=${this.page}`;
     },
   },
 
   methods: {
     ...mapActions({
-      getSneaks: "timeline/getSneaks"
+      getSneaks: "timeline/getSneaks",
     }),
 
     ...mapMutations({
-      PUSH_SNEAKS: "timeline/PUSH_SNEAKS"
+      PUSH_SNEAKS: "timeline/PUSH_SNEAKS",
     }),
 
     loadSneaks() {
       this.getSneaks(this.urlWithPage).then((response) => {
-        this.lastPage = response.data.meta.last_page
-      })
+        this.lastPage = response.data.meta.last_page;
+      });
     },
 
     handleScrolledToBottom(isVisible) {
-
       if (!isVisible) {
         return;
       }
@@ -63,16 +61,18 @@ export default {
 
       this.page++;
       this.loadSneaks();
-    }
+    },
   },
 
   mounted() {
     this.loadSneaks();
 
-    Echo.private(`timeline.${this.$user.id}`)
-      .listen('.SneakWasCreated', (e) => {
-        this.PUSH_SNEAKS([e])
-      })
-  }
-}
+    Echo.private(`timeline.${this.$user.id}`).listen(
+      ".SneakWasCreated",
+      (e) => {
+        this.PUSH_SNEAKS([e]);
+      }
+    );
+  },
+};
 </script>

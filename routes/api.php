@@ -9,3 +9,5 @@ Route::delete('/sneaks/{sneak}/likes', [App\Http\Controllers\Api\Sneaks\SneakLik
 
 Route::post('/sneaks/{sneak}/resneaks', [App\Http\Controllers\Api\Sneaks\SneakResneakController::class, 'store'])->name('sneaks');
 Route::delete('/sneaks/{sneak}/resneaks', [App\Http\Controllers\Api\Sneaks\SneakResneakController::class, 'destroy'])->name('sneaks');
+
+Route::get('/media/types', [App\Http\Controllers\Api\Media\MediaTypesController::class, 'index'])->name('media');
