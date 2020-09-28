@@ -21,6 +21,7 @@ class SneakResource extends JsonResource
             'type' => $this->type,
             'original_sneak' => new SneakResource($this->originalSneak),
             'likes_count' => $this->likes->count(),
+            'resneaks_count' => $this->resneaks->count(),
             'user' => new UserResource($this->user),
             'created_at' => $this->created_at->timestamp
         ];

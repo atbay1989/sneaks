@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use App\Sneaks\SneakType;
 
 class SneakCollection extends ResourceCollection
 {
@@ -36,7 +37,8 @@ class SneakCollection extends ResourceCollection
     {
         return [
             'meta' => [
-                'likes' => $this->likes($request)
+                'likes' => $this->likes($request),
+                'resneaks' => $this->resneaks($request)
 
             ]
         ];
@@ -57,9 +59,30 @@ class SneakCollection extends ResourceCollection
         return $user->likes()
             ->whereIn(
                 'sneak_id',
-                $this->collection->pluck('id')
+                $this->collection->pluck('id')->merge($this->collection->pluck('original_sneak_id'))
             )
             ->pluck('sneak_id')
+            ->toArray();
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $request
+     * @return void
+     */
+    protected function resneaks($request)
+    {
+        if (!$user = $request->user()) {
+            return [];
+        }
+
+        return $user->resneaks()
+            ->whereIn(
+                'original_sneak_id',
+                $this->collection->pluck('id')->merge($this->collection->pluck('original_sneak_id'))
+            )
+            ->pluck('original_sneak_id')
             ->toArray();
     }
 }

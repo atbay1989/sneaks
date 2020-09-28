@@ -4,7 +4,9 @@
         <app-sneak-reply-action />
     </li>
     <li class="w-3/12">
-        <app-sneak-resneak-action />
+        <app-sneak-resneak-action 
+          :sneak="sneak"
+        />
     </li>
     <li class="w-3/12">
         <app-sneak-like-action 
