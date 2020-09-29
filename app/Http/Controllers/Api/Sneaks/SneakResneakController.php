@@ -12,6 +12,11 @@ use App\Sneaks\SneakType;
 
 class SneakResneakController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum'])->only(['store']);
+    }
+
     public function store(Sneak $sneak, Request $request)
     {
         $resneak = $request->user()->sneaks()->create([
@@ -19,7 +24,7 @@ class SneakResneakController extends Controller
             'original_sneak_id' => $sneak->id
         ]);
 
-        broadcast(new SneakWasCreated($sneak));
+        broadcast(new SneakWasCreated($resneak));
         broadcast(new SneakResneaksWereUpdated($request->user(), $sneak));
 
     }

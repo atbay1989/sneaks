@@ -9,6 +9,11 @@ use App\Models\Sneak;
 
 class SneakLikeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum'])->only(['store']);
+    }
+    
     public function store(Sneak $sneak, Request $request)
     {
         if ($request->user()->hasLiked($sneak)) {
