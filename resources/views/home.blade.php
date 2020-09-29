@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="flex">
-        <div class="w-3/12">
-            
+    <div class="container mx-auto px-48">
+        <div class="border border-orange-100">
+            <app-header />
         </div>
-        <div class="w-7/12 border border-orange-100 border-t-0 border-b-0">
+        <div class="border border-orange-100">
             <app-timeline />
         </div>
     </div>

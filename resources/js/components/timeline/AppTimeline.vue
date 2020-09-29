@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="border-b-8 border-orange-500 p-4 w-full">
+    <div class="border-b-8 border-orange-100 bg-orange-500 p-4 w-full">
       <app-sneak-compose />
     </div>
 
