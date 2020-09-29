@@ -2047,21 +2047,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     handleMediaSelected: function handleMediaSelected(files) {
-      var _this3 = this;
-
-      Array.from(files).slice(0, 4).forEach(function () {
-        if (_this3.mediaTypes.image.includes(file.type)) {
-          _this3.media.images.push(file);
-        }
-
-        if (_this3.mediaTypes.video.includes(file.type)) {
-          _this3.media.video = file;
-        }
-      });
-
-      if (this.media.video) {
-        this.media.images = [];
-      }
+      Array.from(files).forEach(function (file) {
+        console.log(file);
+      }); // Array.from(files)
+      //   .slice(0, 4)
+      //   .forEach((file) => {
+      //     if (this.mediaTypes.image.includes(file.type)) {
+      //       this.media.images.push(file)
+      //     }
+      //     if (this.mediaTypes.video.includes(file.type)) {
+      //       this.media.video = file
+      //     }
+      //   });
+      // if (this.media.video) {
+      //   this.media.images = [];
+      // }
     }
   },
   mounted: function mounted() {
@@ -2678,9 +2678,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
@@ -2690,7 +2687,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    resneaks: "resneaks/resneaks"
+    resneaks: 'resneaks/resneaks'
   })), {}, {
     resneaked: function resneaked() {
       return this.resneaks.includes(this.sneak.id);
@@ -2851,6 +2848,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2860,16 +2864,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
-    sneaks: "timeline/sneaks"
+    sneaks: 'timeline/sneaks'
   })), {}, {
     urlWithPage: function urlWithPage() {
       return "/api/timeline?page=".concat(this.page);
     }
   }),
   methods: _objectSpread(_objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
-    getSneaks: "timeline/getSneaks"
+    getSneaks: 'timeline/getSneaks'
   })), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapMutations"])({
-    PUSH_SNEAKS: "timeline/PUSH_SNEAKS"
+    PUSH_SNEAKS: 'timeline/PUSH_SNEAKS'
   })), {}, {
     loadSneaks: function loadSneaks() {
       var _this = this;
@@ -2878,7 +2882,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.lastPage = response.data.meta.last_page;
       });
     },
-    handleScrolledToBottom: function handleScrolledToBottom(isVisible) {
+    handleScrolledToBottomOfTimeline: function handleScrolledToBottomOfTimeline(isVisible) {
       if (!isVisible) {
         return;
       }
@@ -2895,7 +2899,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this2 = this;
 
     this.loadSneaks();
-    Echo["private"]("timeline.".concat(this.$user.id)).listen(".SneakWasCreated", function (e) {
+    Echo["private"]("timeline.".concat(this.$user.id)).listen('.SneakWasCreated', function (e) {
       _this2.PUSH_SNEAKS([e]);
     });
   }
@@ -46229,7 +46233,7 @@ var render = function() {
       _c(
         "svg",
         {
-          staticClass: "fill-current text-orange-100 w-5 mr-2",
+          staticClass: "fill-current text-gray-600 w-5 mr-2",
           class: {
             "text-green-600": _vm.resneaked
           },
@@ -46242,9 +46246,10 @@ var render = function() {
         },
         [
           _c("path", {
+            staticClass: "heroicon-ui",
             attrs: {
               d:
-                "M5,7 L1,7 L1,13 L5,13 L10,18 L10,2 L5,7 Z M16.363961,16.363961 C17.9926407,14.7352814 19,12.4852814 19,10 C19,7.51471863 17.9926407,5.26471863 16.363961,3.63603897 L14.9497475,5.05025253 C16.2164983,6.31700338 17,8.06700338 17,10 C17,11.9329966 16.2164983,13.6829966 14.9497475,14.9497475 L16.363961,16.363961 L16.363961,16.363961 Z M13.5355339,13.5355339 C14.4403559,12.6307119 15,11.3807119 15,10 C15,8.61928813 14.4403559,7.36928813 13.5355339,6.46446609 L12.1213203,7.87867966 C12.6642136,8.42157288 13,9.17157288 13,10 C13,10.8284271 12.6642136,11.5784271 12.1213203,12.1213203 L13.5355339,13.5355339 L13.5355339,13.5355339 Z"
+                "M5.41 16H18a2 2 0 0 0 2-2 1 1 0 0 1 2 0 4 4 0 0 1-4 4H5.41l2.3 2.3a1 1 0 0 1-1.42 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 1 1 1.42 1.4L5.4 16zM6 8a2 2 0 0 0-2 2 1 1 0 0 1-2 0 4 4 0 0 1 4-4h12.59l-2.3-2.3a1 1 0 1 1 1.42-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.42-1.4L18.6 8H6z"
             }
           })
         ]
@@ -46253,7 +46258,7 @@ var render = function() {
       _c(
         "span",
         {
-          staticClass: "text-orange-100",
+          staticClass: "text-gray-600",
           class: {
             "text-green-600": _vm.resneaked
           }
@@ -46448,9 +46453,7 @@ var render = function() {
     [
       _c(
         "div",
-        {
-          staticClass: "border-b-8 border-orange-100 bg-orange-500 p-4 w-full"
-        },
+        { staticClass: "border-b-8 border-orange-500 p-4 w-full" },
         [_c("app-sneak-compose")],
         1
       ),
@@ -46466,9 +46469,10 @@ var render = function() {
                 name: "observe-visibility",
                 rawName: "v-observe-visibility",
                 value: {
-                  callback: _vm.handleScrolledToBottom
+                  callback: _vm.handleScrolledToBottomOfTimeline
                 },
-                expression: "{\n      callback: handleScrolledToBottom,\n    }"
+                expression:
+                  "{\n      callback: handleScrolledToBottomOfTimeline\n    }"
               }
             ]
           })
@@ -60290,7 +60294,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_timeline__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/timeline */ "./resources/js/store/timeline.js");
 /* harmony import */ var _store_likes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/likes */ "./resources/js/store/likes.js");
 /* harmony import */ var _store_resneaks__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/resneaks */ "./resources/js/store/resneaks.js");
-/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -60317,7 +60320,6 @@ var files = __webpack_require__("./resources/js sync recursive \\.vue$/");
 files.keys().map(function (key) {
   return Vue.component(key.split('/').pop().split('.')[0], files(key)["default"]);
 }); //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
 
 
 
