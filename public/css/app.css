@@ -22458,8 +22458,8 @@ video {
 
 body {
   --bg-opacity: 1;
-  background-color: #ed8936;
-  background-color: rgba(237, 137, 54, var(--bg-opacity));
+  background-color: #dd6b20;
+  background-color: rgba(221, 107, 32, var(--bg-opacity));
 }
 
 a {

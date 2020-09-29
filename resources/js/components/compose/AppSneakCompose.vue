@@ -1,10 +1,20 @@
 <template>
-  <form class="flex" @submit.prevent="submit">
-    <img :src="$user.avatar" class="w-12 h-12 rounded-full mr-3" />
-    <div class="flex-grow">
-      <app-sneak-compose-textarea v-model="form.body" />
+  <form
+    class="flex"
+    @submit.prevent="submit">
 
-      <span class="text-orange-100"> {{ media }} </span>
+    <img
+      :src="$user.avatar"
+      class="w-12 h-12 rounded-full mr-3"
+    />
+
+    <div class="flex-grow">
+
+      <app-sneak-compose-textarea
+        v-model="form.body"
+      />
+
+      <span class="text-orange-100"></span>
 
       <app-sneak-image-preview
         :images="media.images"
@@ -23,18 +33,20 @@
           <li class="mr-4">
             <app-sneak-compose-media-button
               id="media-compose"
-              @seleced="handleMediaSelected"
+              @selected="handleMediaSelected"
             />
           </li>
         </ul>
 
         <div class="flex items-center justify-end">
           <div>
-            <app-sneak-compose-limit class="mr-2" :body="form.body" />
+            <app-sneak-compose-limit
+              class="mr-2"
+              :body="form.body" />
           </div>
           <button
             type="submit"
-            class="bg-orange-700 rounded-full text-orange-100 text-center px-4 py-3 font-bold leading-none"
+            class="bg-orange-700 rounded-full text-orange-100 text-center px-4 py-3 font-bold leading-none animate-pulse"
           >
             Submit
           </button>
@@ -66,15 +78,15 @@ export default {
   methods: {
     async submit() {
       await axios.post("/api/sneaks", this.form);
-      this.form.body = "";
+      this.form.body = ''
     },
 
     removeVideo() {
       this.media.video = null;
     },
 
-    removeImage() {
-      this.media.video = this.media.images.filter((i) => {
+    removeImage(image) {
+      this.media.images = this.media.images.filter((i) => {
         return image !== i;
       });
     },
@@ -85,25 +97,21 @@ export default {
     },
 
     handleMediaSelected(files) {
+      Array.from(files)
+        .slice(0, 4)
+        .forEach((file) => {
+          if (this.mediaTypes.image.includes(file.type)) {
+            this.media.images.push(file)
+          }
 
-      Array.from(files).forEach((file) => {
-        console.log(file);
-      })
-      // Array.from(files)
-      //   .slice(0, 4)
-      //   .forEach((file) => {
-      //     if (this.mediaTypes.image.includes(file.type)) {
-      //       this.media.images.push(file)
-      //     }
+          if (this.mediaTypes.video.includes(file.type)) {
+            this.media.video = file
+          }
+        });
 
-      //     if (this.mediaTypes.video.includes(file.type)) {
-      //       this.media.video = file
-      //     }
-      //   });
-
-      // if (this.media.video) {
-      //   this.media.images = [];
-      // }
+      if (this.media.video) {
+        this.media.images = [];
+      }
     }
   },
 
